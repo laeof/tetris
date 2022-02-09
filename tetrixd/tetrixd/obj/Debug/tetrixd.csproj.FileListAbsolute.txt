@@ -1,0 +1,10 @@
+D:\unityprojects\tetris\tetris\tetrixd\tetrixd\bin\Debug\tetrixd.exe.config
+D:\unityprojects\tetris\tetris\tetrixd\tetrixd\bin\Debug\tetrixd.exe
+D:\unityprojects\tetris\tetris\tetrixd\tetrixd\bin\Debug\tetrixd.pdb
+D:\unityprojects\tetris\tetris\tetrixd\tetrixd\obj\Debug\tetrixd.Form1.resources
+D:\unityprojects\tetris\tetris\tetrixd\tetrixd\obj\Debug\tetrixd.Properties.Resources.resources
+D:\unityprojects\tetris\tetris\tetrixd\tetrixd\obj\Debug\tetrixd.csproj.GenerateResource.cache
+D:\unityprojects\tetris\tetris\tetrixd\tetrixd\obj\Debug\tetrixd.csproj.CoreCompileInputs.cache
+D:\unityprojects\tetris\tetris\tetrixd\tetrixd\obj\Debug\tetrixd.exe
+D:\unityprojects\tetris\tetris\tetrixd\tetrixd\obj\Debug\tetrixd.pdb
+D:\unityprojects\tetris\tetris\tetrixd\tetrixd\obj\Debug\tetrixd.csprojAssemblyReference.cache
