@@ -8,3 +8,14 @@ D:\unityprojects\tetris\tetris\tetrixd\tetrixd\obj\Debug\tetrixd.csproj.CoreComp
 D:\unityprojects\tetris\tetris\tetrixd\tetrixd\obj\Debug\tetrixd.exe
 D:\unityprojects\tetris\tetris\tetrixd\tetrixd\obj\Debug\tetrixd.pdb
 D:\unityprojects\tetris\tetris\tetrixd\tetrixd\obj\Debug\tetrixd.csprojAssemblyReference.cache
+C:\Users\defiswin\Documents\GitHub\tetris\tetrixd\tetrixd\bin\Debug\tetrixd.exe.config
+C:\Users\defiswin\Documents\GitHub\tetris\tetrixd\tetrixd\bin\Debug\tetrixd.exe
+C:\Users\defiswin\Documents\GitHub\tetris\tetrixd\tetrixd\bin\Debug\tetrixd.pdb
+C:\Users\defiswin\Documents\GitHub\tetris\tetrixd\tetrixd\obj\Debug\tetrixd.csproj.AssemblyReference.cache
+C:\Users\defiswin\Documents\GitHub\tetris\tetrixd\tetrixd\obj\Debug\tetrixd.csproj.SuggestedBindingRedirects.cache
+C:\Users\defiswin\Documents\GitHub\tetris\tetrixd\tetrixd\obj\Debug\tetrixd.Form1.resources
+C:\Users\defiswin\Documents\GitHub\tetris\tetrixd\tetrixd\obj\Debug\tetrixd.Properties.Resources.resources
+C:\Users\defiswin\Documents\GitHub\tetris\tetrixd\tetrixd\obj\Debug\tetrixd.csproj.GenerateResource.cache
+C:\Users\defiswin\Documents\GitHub\tetris\tetrixd\tetrixd\obj\Debug\tetrixd.csproj.CoreCompileInputs.cache
+C:\Users\defiswin\Documents\GitHub\tetris\tetrixd\tetrixd\obj\Debug\tetrixd.exe
+C:\Users\defiswin\Documents\GitHub\tetris\tetrixd\tetrixd\obj\Debug\tetrixd.pdb

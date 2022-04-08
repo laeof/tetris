@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "dde4ac44-d59e-49d4-9431-dcca3df65a67": {
+      "ProjectGuid": "dde4ac44-d59e-49d4-9431-dcca3df65a67",
+      "DisplayName": "tetrixd",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

@@ -25,17 +25,15 @@ namespace tetrixd
             //размер клеточки
             size = 25;
 
-            //вызываем event update
-            timer1.Tick += new EventHandler(update);
-
-            //фигура посередине
-            curshape = new Shapes(3, 0);
-
             timer1.Start();
 
+            //фигура посередине
+            curshape = new Shapes(3, -1);
+            
             //отрисовка
             Invalidate();
         }
+        
         /// <summary>
         /// функция помощник для таймера
         /// </summary>
@@ -44,36 +42,78 @@ namespace tetrixd
         public void update(object Sender, EventArgs e)
         {
             Clear();
+            
+            //downmove
             curshape.Move();
-            if (curshape.y == 17)
-                curshape = new Shapes(3, 0);
+            
+            //init matrix
             Merge();
-            //отрисовка
+            
+            //another shape or end
+            OnCollision();
+
+            //
             Invalidate();
-           
+
+            this.Text = Convert.ToString("x: " + curshape.x + "y: " + curshape.y);
+        }
+        public bool col = false;
+        public bool ss = false;
+
+        public void OnCollision()
+        {
+            for (int i = curshape.x; i < curshape.x + curshape.shapelength; i++)
+            {
+                if (curshape.y < curshape.typeshape_y)
+                    if (map[curshape.y + curshape.shapeheight, i] == 1 && map[curshape.y + curshape.shapeheight - 1, i] == 1)//y, x
+                    {
+                        ss = true;
+                    }
+            }
+
+            if (curshape.y == curshape.typeshape_y)
+            {
+                col = true;
+            }
+            else col = false;
+
+            //shape falls
+            if (col || ss)
+            {
+                ss = false;
+                curshape = new Shapes(3, -1);
+                timer1.Interval = 500;
+            }
         }
         /// <summary>
         /// инициализация матрицы
         /// </summary>
         public void Merge()
         {
-            for (int i = curshape.y; i <curshape.y + 3; i++)
+            for (int i = curshape.y; i <curshape.y + Math.Sqrt(curshape.matlen); i++)
             {
-                for (int j = curshape.x; j < curshape.x + 3; j++)
+                for (int j = curshape.x; j < curshape.x + Math.Sqrt(curshape.matlen); j++)
                 {
                     if (curshape.matrix[i - curshape.y, j - curshape.x] != 0)
                         map[i, j] = curshape.matrix[i - curshape.y, j - curshape.x];
                 }
             }
         }
+        //проблема тут
+        //понять какую область чистит
+        //переписать алгоритм
+        //добавить удаление нижней линии
         public void Clear()
         {
-            for (int i = curshape.y; i < curshape.y + 3; i++)
+            for (int i = curshape.y; i < curshape.y + Math.Sqrt(curshape.matlen); i++)
             {
-                for (int j = curshape.x; j < curshape.x + 3; j++)
+                for (int j = curshape.x; j < curshape.x + Math.Sqrt(curshape.matlen); j++)
                 {
-                    if(i >=0 && j>=0 && i < 20 && j < 10)
-                    map[i, j] = 0;
+                    //clear all '1' around shape
+                    if (i >= 0 && j >= 0 && i < 20 && j < 10)
+                        if (map[i, j] == 1) 
+                                map[i, j] = 0;
+                    
                 }
             }
         }
@@ -125,19 +165,33 @@ namespace tetrixd
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.A)
+            //два первых условия добавить условие справа или слева находится фигура то-есть 1
+            if (e.KeyCode == Keys.A && curshape.x > 0 && curshape.y >= 0)
             {
                 Clear();
                 curshape.MoveLeft();
                 Merge();
                 Invalidate();
             }
-            else if (e.KeyCode == Keys.D)
+            //pressed d && x < limit_x && (y >= 0 cause error happens)
+            else if (e.KeyCode == Keys.D && curshape.x < curshape.typeshape_x && curshape.y >= 0)
             {
                 Clear();
                 curshape.MoveRight();
                 Merge();
                 Invalidate();
+            }
+            else if (e.KeyCode == Keys.R)
+            {
+                Clear();
+                curshape.Rotate();
+                Merge();
+                Invalidate();
+            }
+            else if (e.KeyCode == Keys.S)
+            {
+                if (!col)
+                    timer1.Interval = 10;
             }
         }
     }
