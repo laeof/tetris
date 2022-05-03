@@ -148,5 +148,6 @@ namespace tetrixd
             label1.Text = "Score: " + mapp._score;
             this.Focus();
         }
+
     }
 }

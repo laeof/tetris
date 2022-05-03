@@ -61,6 +61,19 @@ namespace tetrixd
         {
             return false;
         }
+
+        //fixme
+        private bool IsRowFilled()
+        {
+            return false;
+        }
+        //fixme
+        public void ClearOneRow()
+        {
+            
+        }
+
+
         public void Merge(int x, int y, int shapelenght, int shapeheight, Shapes shape)
         {
             for (int i = shape.y; i < shape.y + Math.Sqrt(shape.matlen); i++)

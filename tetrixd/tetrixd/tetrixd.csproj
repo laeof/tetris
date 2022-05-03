@@ -84,6 +84,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="results.xml" />
+    <Content Include="Sources\a.png" />
+    <Content Include="Sources\d.png" />
+    <Content Include="Sources\down.png" />
+    <Content Include="Sources\Esc.png" />
+    <Content Include="Sources\left.png" />
+    <Content Include="Sources\r.png" />
+    <Content Include="Sources\right.png" />
+    <Content Include="Sources\s.png" />
+    <Content Include="Sources\up.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
