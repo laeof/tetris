@@ -10,6 +10,10 @@ namespace tetrixd
         private int _size;
         private int _rows;
         private int _cols;
+        private int _score_fall = 30;
+        private int _multiply = 1;
+        ScoreM score = new ScoreM();
+        //250 500 700 1000 1300
         public Map(int cols, int rows, int size)
         {
             _map = new int[rows, cols];
@@ -43,22 +47,58 @@ namespace tetrixd
                             Program.f.timer1.Enabled = false;
                             Program.f.button1.Visible = true;
                         }
-                        _score += 10;
+                        _score += score.Score;
                         return true;
                     }
             }
 
             if (y == type_y)
             {
-                _score += 10;
+                _score += score.Score;
                 return true;
             }
 
             return false;
         }
-        //fixme
-        public bool Collisions_Right_Left()
+
+        public bool Collisions_Right_Left(Shapes shape)
         {
+            if (shape.x > 0 && shape.y < shape.typeshape_y && shape.x < shape.typeshape_x)
+                for (int i = 0; i < 3; i++)
+                {
+                    if (_map[shape.y + i, shape.x - 1] != 0 && _map[shape.y + i, shape.x] != 0)
+                    {
+                        return true;
+                    }
+                    if (_map[shape.y + i, shape.x + shape.shapelength] != 0 && _map[shape.y + i, shape.x + shape.shapelength - 1] != 0)
+                    {
+                        return true;
+                    }
+                }
+            return false;
+        }
+        public bool Collisions_Left(Shapes shape)
+        {
+            if (shape.x > 0 && shape.y < shape.typeshape_y && shape.x < shape.typeshape_x)
+                for (int i = 0; i < shape.shapeheight; i++)
+                {
+                    if (_map[shape.y + i, shape.x - 1] != 0 && _map[shape.y + i, shape.x] != 0)
+                    {
+                        return true;
+                    }
+                }
+            return false;
+        }
+        public bool Collisions_Right(Shapes shape)
+        {
+            if (shape.x > 0 && shape.y < shape.typeshape_y && shape.x < shape.typeshape_x)
+                for (int i = 0; i < shape.shapeheight; i++)
+                {
+                    if (_map[shape.y + i, shape.x + shape.shapelength] != 0 && _map[shape.y + i, shape.x + shape.shapelength - 1] != 0)
+                    {
+                        return true;
+                    }
+                }
             return false;
         }
 
@@ -72,7 +112,47 @@ namespace tetrixd
         {
             
         }
-
+        bool i1 = true, i2 = true, i3 = true, i4 = true, i5 = true;
+        public void ScoreCalc()
+        {
+            if (i1 && _score >= 300)
+            {
+                i1 = false;
+                score.Score_Calc();
+            }
+            else if(_score > 600)
+            {
+                if (i2)
+                {
+                    i2 = false;
+                    score.Score_Calc();
+                }
+                else if(_score > 900)
+                {
+                    if (i3)
+                    {
+                        i3 = false;
+                        score.Score_Calc();
+                    }
+                    else if(_score > 1200)
+                    {
+                        if (i4)
+                        {
+                            i4 = false;
+                            score.Score_Calc();
+                        }
+                        else if (_score > 1500)
+                        {
+                            if (i5)
+                            {
+                                i5 = false;
+                                score.Score_Calc();
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         public void Merge(int x, int y, int shapelenght, int shapeheight, Shapes shape)
         {

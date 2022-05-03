@@ -13,7 +13,6 @@ namespace tetrixd
         Files file;
         //коллизия
         bool col;
-        bool col_r_l;
 
         public Form1()
         {
@@ -57,18 +56,23 @@ namespace tetrixd
         public void update(object Sender, EventArgs e)
         {
             mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
-            
-            //вниз
-            curshape.Move();
-
-            //инициализация
-            mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
 
             col = mapp.Collisions(curshape.x, curshape.y, curshape.shapelength,
                 curshape.shapeheight, curshape.typeshape_x, curshape.typeshape_y, curshape);
 
-            //fixme
-            col_r_l = mapp.Collisions_Right_Left();
+            //вниз
+            if (!col)
+                curshape.Move();
+
+            try
+            {
+                //инициализация
+                mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                
+            }
+            catch { curshape = new Shapes(3, -1); }
+
+            mapp.ScoreCalc();
 
             //коллизия
             if (col)
@@ -95,7 +99,7 @@ namespace tetrixd
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             //два первых условия добавить условие справа или слева находится фигура то-есть 1
-            if (e.KeyCode == Keys.A && curshape.x > 0 && curshape.y >= 0)
+            if (e.KeyCode == Keys.A && curshape.x > 0 && curshape.y >= 0 && !mapp.Collisions_Left(curshape))
             {
                 mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
                 curshape.MoveLeft();
@@ -103,14 +107,14 @@ namespace tetrixd
                 Invalidate();
             }
             //pressed d && x < limit_x && (y >= 0 cause error happens)
-            else if (e.KeyCode == Keys.D && curshape.x < curshape.typeshape_x && curshape.y >= 0)
+            else if (e.KeyCode == Keys.D && curshape.x < curshape.typeshape_x && curshape.y >= 0 && !mapp.Collisions_Right(curshape))
             {
                 mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
                 curshape.MoveRight();
                 mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
                 Invalidate();
             }
-            else if (e.KeyCode == Keys.R)
+            else if (e.KeyCode == Keys.R && !col)
             {
                 mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
                 curshape.Rotate();
@@ -135,6 +139,25 @@ namespace tetrixd
                     isesc = false;
                 }
             }
+            else if (e.KeyCode == Keys.Down)
+            {
+                if (!col)
+                    timer1.Interval = 10;
+            }
+            else if (e.KeyCode == Keys.Left && curshape.x > 0 && curshape.y >= 0 && !mapp.Collisions_Left(curshape))
+            {
+                mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                curshape.MoveLeft();
+                mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                Invalidate();
+            }
+            else if (e.KeyCode == Keys.Right && curshape.x < curshape.typeshape_x && curshape.y >= 0 && !mapp.Collisions_Right(curshape))
+            {
+                mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                curshape.MoveRight();
+                mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                Invalidate();
+            }
         }
         //рестарт
         private void button1_Click(object sender, EventArgs e)
@@ -148,6 +171,5 @@ namespace tetrixd
             label1.Text = "Score: " + mapp._score;
             this.Focus();
         }
-
     }
 }
