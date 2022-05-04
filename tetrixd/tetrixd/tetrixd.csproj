@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>tetris_icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -85,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="results.xml" />
+    <Content Include="Screenshot_1.ico" />
     <Content Include="Sources\a.png" />
     <Content Include="Sources\d.png" />
     <Content Include="Sources\down.png" />
@@ -93,7 +97,9 @@
     <Content Include="Sources\r.png" />
     <Content Include="Sources\right.png" />
     <Content Include="Sources\s.png" />
+    <Content Include="Sources\tetris_icon.ico" />
     <Content Include="Sources\up.png" />
+    <Content Include="tetris_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

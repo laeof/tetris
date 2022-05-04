@@ -7,8 +7,17 @@ namespace tetrixd
 {
     public class Files
     {
+        /// <summary>
+        /// файл
+        /// </summary>
         private string _filepath;
+        /// <summary>
+        /// очки
+        /// </summary>
         private int _score = 0;
+        /// <summary>
+        /// таблица лидеров(при желании расширить)
+        /// </summary>
         public int Tier1, Tier2, Tier3;
         public Files(string filepath)
         {
@@ -34,6 +43,10 @@ namespace tetrixd
             Tier3 = f.Tier3;
             
         }
+        /// <summary>
+        /// экспорт в файл
+        /// </summary>
+        /// <param name="score"></param>
         public void ExportToFile(int score)
         {
             //экземпляр для сериализации
@@ -75,6 +88,9 @@ namespace tetrixd
 
         }
     }
+    /// <summary>
+    /// описание xml
+    /// </summary>
     [Serializable]
     [XmlType("Leaders")]
     public class Leaders

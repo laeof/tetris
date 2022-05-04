@@ -5,15 +5,37 @@ namespace tetrixd
 {
     public class Map
     {
+        /// <summary>
+        /// массив стакана
+        /// </summary>
         public int[,] _map;
+        /// <summary>
+        /// очки
+        /// </summary>
         public int _score = 0;
+        /// <summary>
+        /// размер клеточки
+        /// </summary>
         private int _size;
+        /// <summary>
+        /// количество гор линий
+        /// </summary>
         private int _rows;
+        /// <summary>
+        /// количество верт линий
+        /// </summary>
         private int _cols;
-        private int _score_fall = 30;
-        private int _multiply = 1;
+        /// <summary>
+        /// экземпляр контроллера очков
+        /// </summary>
         ScoreM score = new ScoreM();
         //250 500 700 1000 1300
+        /// <summary>
+        /// конструктор
+        /// </summary>
+        /// <param name="cols"></param>
+        /// <param name="rows"></param>
+        /// <param name="size"></param>
         public Map(int cols, int rows, int size)
         {
             _map = new int[rows, cols];
@@ -21,6 +43,11 @@ namespace tetrixd
             _rows = rows;
             _cols = cols;
         }
+        /// <summary>
+        /// Рестарт игры и запись в файл
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="sc"></param>
         public void Restart(Files file, int sc)
         {
             file.ExportToFile(sc);
@@ -34,6 +61,17 @@ namespace tetrixd
                 }
             }
         }
+        /// <summary>
+        /// коллизии
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="shapelenght"></param>
+        /// <param name="shapeheight"></param>
+        /// <param name="type_x"></param>
+        /// <param name="type_y"></param>
+        /// <param name="shape"></param>
+        /// <returns></returns>
         public bool Collisions(int x, int y, int shapelenght, int shapeheight, int type_x, int type_y, Shapes shape)
         {
             for (int i = x, j = 0; i < x + shapelenght; i++, j++)
@@ -60,10 +98,14 @@ namespace tetrixd
 
             return false;
         }
-
+        /// <summary>
+        /// коллизии
+        /// </summary>
+        /// <param name="shape"></param>
+        /// <returns></returns>
         public bool Collisions_Right_Left(Shapes shape)
         {
-            if (shape.x > 0 && shape.y < shape.typeshape_y && shape.x < shape.typeshape_x)
+            if (shape.x > 0 && shape.y <= shape.typeshape_y && shape.x < shape.typeshape_x)
                 for (int i = 0; i < 3; i++)
                 {
                     if (_map[shape.y + i, shape.x - 1] != 0 && _map[shape.y + i, shape.x] != 0)
@@ -77,9 +119,14 @@ namespace tetrixd
                 }
             return false;
         }
+        /// <summary>
+        /// коллизии
+        /// </summary>
+        /// <param name="shape"></param>
+        /// <returns></returns>
         public bool Collisions_Left(Shapes shape)
         {
-            if (shape.x > 0 && shape.y < shape.typeshape_y && shape.x < shape.typeshape_x)
+            if (shape.x > 0 && shape.y <= shape.typeshape_y && shape.x < shape.typeshape_x)
                 for (int i = 0; i < shape.shapeheight; i++)
                 {
                     if (_map[shape.y + i, shape.x - 1] != 0 && _map[shape.y + i, shape.x] != 0)
@@ -89,9 +136,14 @@ namespace tetrixd
                 }
             return false;
         }
+        /// <summary>
+        /// коллизии
+        /// </summary>
+        /// <param name="shape"></param>
+        /// <returns></returns>
         public bool Collisions_Right(Shapes shape)
         {
-            if (shape.x > 0 && shape.y < shape.typeshape_y && shape.x < shape.typeshape_x)
+            if (shape.x > 0 && shape.y <= shape.typeshape_y && shape.x < shape.typeshape_x)
                 for (int i = 0; i < shape.shapeheight; i++)
                 {
                     if (_map[shape.y + i, shape.x + shape.shapelength] != 0 && _map[shape.y + i, shape.x + shape.shapelength - 1] != 0)
@@ -101,18 +153,65 @@ namespace tetrixd
                 }
             return false;
         }
-
-        //fixme
-        private bool IsRowFilled()
+        /// <summary>
+        /// убираем заполненную линию
+        /// </summary>
+        /// <param name="row"></param>
+        /// <returns></returns>
+        private bool IsRowFilled(int row)
         {
-            return false;
+            int count = 0;
+            for (int i = 0; i < _cols; i++)
+            {
+                if (_map[row, i] != 0)
+                {
+                    count++;
+                }
+                else count--;
+            }
+            if (count == _cols)
+            {
+                return true;
+            }
+            else return false;
         }
-        //fixme
+        /// <summary>
+        /// убираем заполненную линию
+        /// </summary>
+        /// <param name="row"></param>
+        private void DownRows(int row)
+        {
+            for (int i = row; i > 0; i--)
+            {
+                for (int j = 0; j < _cols; j++)
+                {
+                    _map[i, j] = _map[i - 1, j];
+                }
+            }
+        }
+        /// <summary>
+        /// убираем заполненную линию
+        /// </summary>
         public void ClearOneRow()
         {
-            
+            for (int i = 0; i < _rows; i++)
+            {
+                if (IsRowFilled(i))
+                {
+                    for (int j = 0; j < _cols; j++)
+                    {
+                        _map[i, j] = 0;
+                    }
+                    _score += score.Score_Row;
+                    DownRows(i);
+                }
+            }
         }
-        bool i1 = true, i2 = true, i3 = true, i4 = true, i5 = true;
+
+        /// <summary>
+        /// считаем очки по контроллеру очков
+        /// </summary>
+        bool i1 = true, i2 = true, i3 = true, i4 = true;
         public void ScoreCalc()
         {
             if (i1 && _score >= 300)
@@ -141,19 +240,45 @@ namespace tetrixd
                             i4 = false;
                             score.Score_Calc();
                         }
-                        else if (_score > 1500)
-                        {
-                            if (i5)
-                            {
-                                i5 = false;
-                                score.Score_Calc();
-                            }
-                        }
                     }
                 }
             }
-        }
 
+        }
+        /// <summary>
+        /// изменяем скорость в соответствии со сложностью
+        /// </summary>
+        public void ChangeInterval()
+        {
+            switch (score.Speed)
+            {
+                case 1:
+
+                    break;
+                case 2:
+
+                    break;
+                case 3:
+
+                    break;
+                case 4:
+
+                    break;
+                case 5:
+
+                    break;
+                default:
+                    break;
+            }
+        }
+        /// <summary>
+        /// инициализируем матрицу
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="shapelenght"></param>
+        /// <param name="shapeheight"></param>
+        /// <param name="shape"></param>
         public void Merge(int x, int y, int shapelenght, int shapeheight, Shapes shape)
         {
             for (int i = shape.y; i < shape.y + Math.Sqrt(shape.matlen); i++)
@@ -165,6 +290,14 @@ namespace tetrixd
                 }
             }
         }
+        /// <summary>
+        /// очищаем матрицу
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="shapelenght"></param>
+        /// <param name="shapeheight"></param>
+        /// <param name="shape"></param>
         public void Clear(int x, int y, int shapelenght, int shapeheight, Shapes shape)
         {
             for (int i = y; i < y + shapeheight; i++)
@@ -179,6 +312,10 @@ namespace tetrixd
                 }
             }
         }
+        /// <summary>
+        /// рисуем игру
+        /// </summary>
+        /// <param name="e"></param>
         public void DrawGame(Graphics e)
         {
             for (int i = 0; i < 20; i++)
@@ -217,6 +354,11 @@ namespace tetrixd
                 }
             }
         }
+        /// <summary>
+        /// рисуем следующую фигуру
+        /// </summary>
+        /// <param name="g"></param>
+        /// <param name="shape"></param>
         public void DrawNextShape(Graphics g, Shapes shape)
         {
             int[,] mat = shape.matrix;
@@ -257,6 +399,10 @@ namespace tetrixd
                 }
             }
         }
+        /// <summary>
+        /// рисуем следующую фигуру
+        /// </summary>
+        /// <param name="g"></param>
         public void DrawNextMap(Graphics g)
         {
             int numcol = 4;//количество клеточек по горизонтали
@@ -284,6 +430,10 @@ namespace tetrixd
             }
 
         }
+        /// <summary>
+        /// рисуем игру
+        /// </summary>
+        /// <param name="g"></param>
         public void DrawMap(Graphics g)
         {
             int numcol = _cols;//количество клеточек по горизонтали

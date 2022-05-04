@@ -20,6 +20,9 @@ namespace tetrixd
             InitializeComponent();
             Init();
         }
+        /// <summary>
+        /// инициализация формы
+        /// </summary>
         public void Init()
         {
             //результаты
@@ -64,6 +67,8 @@ namespace tetrixd
             if (!col)
                 curshape.Move();
 
+            mapp.ClearOneRow();
+
             try
             {
                 //инициализация
@@ -87,6 +92,11 @@ namespace tetrixd
             //дебаг
             Text = Convert.ToString("x: " + curshape.x + "y: " + curshape.y);
         }
+        /// <summary>
+        /// рисуем все
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnPaint(object sender, PaintEventArgs e)
         {
             //отрисовка
@@ -95,6 +105,9 @@ namespace tetrixd
             mapp.DrawNextMap(e.Graphics);
             mapp.DrawNextShape(e.Graphics, nextShape);
         }
+        /// <summary>
+        /// обработчик клавиш
+        /// </summary>
         bool isesc = false;
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -115,6 +128,13 @@ namespace tetrixd
                 Invalidate();
             }
             else if (e.KeyCode == Keys.R && !col)
+            {
+                mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                curshape.Rotate();
+                mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                Invalidate();
+            }
+            else if (e.KeyCode == Keys.Up && !col)
             {
                 mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
                 curshape.Rotate();
@@ -169,6 +189,7 @@ namespace tetrixd
             timer1.Enabled = true;
             button1.Visible = false;
             label1.Text = "Score: " + mapp._score;
+            mapp = new Map(10, 20, 25);
             this.Focus();
         }
     }

@@ -1,6 +1,8 @@
 ﻿using System;
-using System.Drawing;
 
+/// <summary>
+/// перечисление для вращения
+/// </summary>
 enum rot
 {
     top,
@@ -15,35 +17,45 @@ namespace tetrixd
     public class Shapes
     {
         /// <summary>
-        /// 
+        /// длина матрицы
         /// </summary>
         public int matlen;
         /// <summary>
-        /// 
+        /// расположение матрицы
         /// </summary>
         public int x, y;
         /// <summary>
-        /// 
+        /// матрица
         /// </summary>
         public int[,] matrix;
+        /// <summary>
+        /// массив для отслеживания коллизий
+        /// </summary>
         public int[] shapemass;
         /// <summary>
-        /// 
+        /// вспомогательные переменные
         /// </summary>
         public int typeshape_x;
         public int typeshape_y;
         public char typeshape_c;
 
+        /// <summary>
+        /// длина и ширина фигуры
+        /// </summary>
         public int shapelength;
         public int shapeheight;
-
+        /// <summary>
+        /// конструктор
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public Shapes(int x, int y)
         {
             Random rnd = new Random();
 
             //какая следующая фигура
-            int value = rnd.Next(7);
-            //int value = 4;
+            //int value = rnd.Next(7);
+            int value = 0;
             j = 0;
             this.x = x;
             this.y = y;
@@ -142,19 +154,34 @@ namespace tetrixd
             }
             s();
         }
+        /// <summary>
+        /// движение вниз
+        /// </summary>
         public void Move()
         {
             y++;
         }
+        /// <summary>
+        /// движение вправо
+        /// </summary>
         public void MoveRight()
         {
             x++;
         }
+        /// <summary>
+        /// движение влево
+        /// </summary>
         public void MoveLeft()
         {
             x--;
         }
+        /// <summary>
+        /// экземпляр перечисления
+        /// </summary>
         rot j;
+        /// <summary>
+        /// вращение фигуры
+        /// </summary>
         public void Rotate()
         {
             j = (j < rot.left) ? j + 1 : 0;//цикличное перечисление
@@ -212,6 +239,8 @@ namespace tetrixd
                     switch (j)
                     {
                         case rot.top:
+
+                            if (y > 16) break;
                             shapelength = 1;
                             shapeheight = 4;
                             matrix = new int[4, 4]
@@ -226,6 +255,8 @@ namespace tetrixd
                             shapelength = 4;
                             shapeheight = 1;
                             if (x == 9) x -= 3;
+                            else if (x == 8) x -= 2;
+                            else if (x == 7) x -= 1;
                             matrix = new int[4, 4]
                             {
                                    { 2, 2, 2, 2},
@@ -235,6 +266,8 @@ namespace tetrixd
                             };
                             break;
                         case rot.down:
+
+                            if (y > 16) break;
                             shapelength = 1;
                             shapeheight = 4;
                             matrix = new int[4, 4]
@@ -248,6 +281,9 @@ namespace tetrixd
                         case rot.left:
                             shapelength = 4;
                             shapeheight = 1;
+                            if (x == 9) x -= 3;
+                            else if (x == 8) x -= 2;
+                            else if (x == 7) x -= 1;
                             matrix = new int[4, 4]
                             {
                                    { 2, 2, 2, 2},
@@ -455,7 +491,10 @@ namespace tetrixd
             }
             s();
         }
-        public void s()
+        /// <summary>
+        /// вспомогательная функция
+        /// </summary>
+        private void s()
         {
             matlen = matrix.Length;
             typeshape_x = 10 - shapelength;
