@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace tetrixd
@@ -25,6 +26,7 @@ namespace tetrixd
         /// </summary>
         public void Init()
         {
+            Program.f.Focus();
             //результаты
 
             file = new Files("results.xml");
@@ -47,7 +49,7 @@ namespace tetrixd
             //результат
             mapp._score = 0;
             label1.Text = "Score: " + mapp._score;
-
+            
             //отрисовка
             Invalidate();
         }
@@ -105,80 +107,6 @@ namespace tetrixd
             mapp.DrawNextMap(e.Graphics);
             mapp.DrawNextShape(e.Graphics, nextShape);
         }
-        /// <summary>
-        /// обработчик клавиш
-        /// </summary>
-        bool isesc = false;
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
-        {
-            //два первых условия добавить условие справа или слева находится фигура то-есть 1
-            if (e.KeyCode == Keys.A && curshape.x > 0 && curshape.y >= 0 && !mapp.Collisions_Left(curshape))
-            {
-                mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
-                curshape.MoveLeft();
-                mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
-                Invalidate();
-            }
-            //pressed d && x < limit_x && (y >= 0 cause error happens)
-            else if (e.KeyCode == Keys.D && curshape.x < curshape.typeshape_x && curshape.y >= 0 && !mapp.Collisions_Right(curshape))
-            {
-                mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
-                curshape.MoveRight();
-                mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
-                Invalidate();
-            }
-            else if (e.KeyCode == Keys.R && !col)
-            {
-                mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
-                curshape.Rotate();
-                mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
-                Invalidate();
-            }
-            else if (e.KeyCode == Keys.Up && !col)
-            {
-                mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
-                curshape.Rotate();
-                mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
-                Invalidate();
-            }
-            else if (e.KeyCode == Keys.S)
-            {
-                if (!col)
-                    timer1.Interval = 10;
-            }
-            else if (e.KeyCode == Keys.Escape)
-            {
-                if (!isesc)
-                {
-                    timer1.Stop();
-                    isesc = true;
-                }
-                else
-                {
-                    timer1.Start();
-                    isesc = false;
-                }
-            }
-            else if (e.KeyCode == Keys.Down)
-            {
-                if (!col)
-                    timer1.Interval = 10;
-            }
-            else if (e.KeyCode == Keys.Left && curshape.x > 0 && curshape.y >= 0 && !mapp.Collisions_Left(curshape))
-            {
-                mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
-                curshape.MoveLeft();
-                mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
-                Invalidate();
-            }
-            else if (e.KeyCode == Keys.Right && curshape.x < curshape.typeshape_x && curshape.y >= 0 && !mapp.Collisions_Right(curshape))
-            {
-                mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
-                curshape.MoveRight();
-                mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
-                Invalidate();
-            }
-        }
         //рестарт
         private void button1_Click(object sender, EventArgs e)
         {
@@ -191,6 +119,129 @@ namespace tetrixd
             label1.Text = "Score: " + mapp._score;
             mapp = new Map(10, 20, 25);
             this.Focus();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Minimized;
+        }
+        Point lastPoint;
+        private void panel4_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                this.Left += e.X - lastPoint.X;
+                this.Top += e.Y - lastPoint.Y;
+            }
+        }
+
+        private void panel4_MouseDown(object sender, MouseEventArgs e)
+        {
+            lastPoint = new Point(e.X, e.Y);
+        }
+
+        private void button4_Enter(object sender, EventArgs e)
+        {
+            panel4.Focus();
+        }
+
+        /// <summary>
+        /// обработчик клавиш
+        /// </summary>
+        bool isesc = false;
+        private void panel4_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (!isesc)
+            {
+                //два первых условия добавить условие справа или слева находится фигура то-есть 1
+                if (e.KeyCode == Keys.A && curshape.x > 0 && curshape.y >= 0 && !mapp.Collisions_Left(curshape))
+                {
+                    mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                    curshape.MoveLeft();
+                    mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                    Invalidate();
+                }
+                //pressed d && x < limit_x && (y >= 0 cause error happens)
+                else if (e.KeyCode == Keys.D && curshape.x < curshape.typeshape_x && curshape.y >= 0 && !mapp.Collisions_Right(curshape))
+                {
+                    mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                    curshape.MoveRight();
+                    mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                    Invalidate();
+                }
+                else if (e.KeyCode == Keys.R && !col)
+                {
+                    mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                    curshape.Rotate();
+                    mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                    Invalidate();
+                }
+                else if (e.KeyCode == Keys.Up && !col)
+                {
+                    mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                    curshape.Rotate();
+                    mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                    Invalidate();
+                }
+                else if (e.KeyCode == Keys.S)
+                {
+                    if (!col)
+                        timer1.Interval = 10;
+                }
+                else if (e.KeyCode == Keys.Escape)
+                {
+                    if (!isesc)
+                    {
+                        timer1.Stop();
+                        isesc = true;
+                    }
+                    else
+                    {
+                        timer1.Start();
+                        isesc = false;
+                    }
+                }
+                else if (e.KeyCode == Keys.Down)
+                {
+                    if (!col)
+                        timer1.Interval = 10;
+                }
+                else if (e.KeyCode == Keys.Left && curshape.x > 0 && curshape.y >= 0 && !mapp.Collisions_Left(curshape))
+                {
+                    mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                    curshape.MoveLeft();
+                    mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                    Invalidate();
+                }
+                else if (e.KeyCode == Keys.Right && curshape.x < curshape.typeshape_x && curshape.y >= 0 && !mapp.Collisions_Right(curshape))
+                {
+                    mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                    curshape.MoveRight();
+                    mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                    Invalidate();
+                }
+            }
+            else
+            {
+                if (e.KeyCode == Keys.Escape)
+                {
+                    if (!isesc)
+                    {
+                        timer1.Stop();
+                        isesc = true;
+                    }
+                    else
+                    {
+                        timer1.Start();
+                        isesc = false;
+                    }
+                }
+            }
         }
     }
 }

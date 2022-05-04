@@ -324,31 +324,31 @@ namespace tetrixd
                 {
                     if (_map[i, j] == 1)
                     {
-                        e.FillRectangle(Brushes.Blue, new Rectangle(10 + j * _size + 1, 10 + i * _size + 1, _size - 1, _size - 1));
+                        e.FillRectangle(Brushes.Blue, new Rectangle(10 + j * _size + 1, 10 + i * _size + 1 + 30, _size - 1, _size - 1));
                     }
                     else if (_map[i, j] == 2)
                     {
-                        e.FillRectangle(Brushes.Aqua, new Rectangle(10 + j * _size + 1, 10 + i * _size + 1, _size - 1, _size - 1));
+                        e.FillRectangle(Brushes.Aqua, new Rectangle(10 + j * _size + 1, 10 + i * _size + 1 + 30, _size - 1, _size - 1));
                     }
                     else if (_map[i, j] == 3)
                     {
-                        e.FillRectangle(Brushes.Yellow, new Rectangle(10 + j * _size + 1, 10 + i * _size + 1, _size - 1, _size - 1));
+                        e.FillRectangle(Brushes.Yellow, new Rectangle(10 + j * _size + 1, 10 + i * _size + 1 + 30, _size - 1, _size - 1));
                     }
                     else if (_map[i, j] == 4)
                     {
-                        e.FillRectangle(Brushes.Orange, new Rectangle(10 + j * _size + 1, 10 + i * _size + 1, _size - 1, _size - 1));
+                        e.FillRectangle(Brushes.Orange, new Rectangle(10 + j * _size + 1, 10 + i * _size + 1 + 30, _size - 1, _size - 1));
                     }
                     else if (_map[i, j] == 5)
                     {
-                        e.FillRectangle(Brushes.Red, new Rectangle(10 + j * _size + 1, 10 + i * _size + 1, _size - 1, _size - 1));
+                        e.FillRectangle(Brushes.Red, new Rectangle(10 + j * _size + 1, 10 + i * _size + 1 + 30, _size - 1, _size - 1));
                     }
                     else if (_map[i, j] == 6)
                     {
-                        e.FillRectangle(Brushes.Purple, new Rectangle(10 + j * _size + 1, 10 + i * _size + 1, _size - 1, _size - 1));
+                        e.FillRectangle(Brushes.Purple, new Rectangle(10 + j * _size + 1, 10 + i * _size + 1 + 30, _size - 1, _size - 1));
                     }
                     else if (_map[i, j] == 7)
                     {
-                        e.FillRectangle(Brushes.Green, new Rectangle(10 + j * _size + 1, 10 + i * _size + 1, _size - 1, _size - 1));
+                        e.FillRectangle(Brushes.Green, new Rectangle(10 + j * _size + 1, 10 + i * _size + 1 + 30, _size - 1, _size - 1));
                     }
 
                 }
@@ -369,31 +369,31 @@ namespace tetrixd
                 {
                     if (mat[i, j] == 1)
                     {
-                        g.FillRectangle(Brushes.Blue, new Rectangle(40 + 10 * _size + j * _size + 1, 40 + i * _size + 1, _size - 1, _size - 1));
+                        g.FillRectangle(Brushes.Blue, new Rectangle(40 + 10 * _size + j * _size + 1, 40 + i * _size + 1 + 30, _size - 1, _size - 1));
                     }
                     else if (mat[i, j] == 2)
                     {
-                        g.FillRectangle(Brushes.Aqua, new Rectangle(40 + 10 * _size + j * _size + 1, 40 + i * _size + 1, _size - 1, _size - 1));
+                        g.FillRectangle(Brushes.Aqua, new Rectangle(40 + 10 * _size + j * _size + 1, 40 + i * _size + 1 + 30, _size - 1, _size - 1));
                     }
                     else if (mat[i, j] == 3)
                     {
-                        g.FillRectangle(Brushes.Yellow, new Rectangle(40 + 10 * _size + j * _size + 1, 40 + i * _size + 1, _size - 1, _size - 1));
+                        g.FillRectangle(Brushes.Yellow, new Rectangle(40 + 10 * _size + j * _size + 1, 40 + i * _size + 1 + 30, _size - 1, _size - 1));
                     }
                     else if (mat[i, j] == 4)
                     {
-                        g.FillRectangle(Brushes.Orange, new Rectangle(40 + 10 * _size + j * _size + 1, 40 + i * _size + 1, _size - 1, _size - 1));
+                        g.FillRectangle(Brushes.Orange, new Rectangle(40 + 10 * _size + j * _size + 1, 40 + i * _size + 1 + 30, _size - 1, _size - 1));
                     }
                     else if (mat[i, j] == 5)
                     {
-                        g.FillRectangle(Brushes.Red, new Rectangle(40 + 10 * _size + j * _size + 1, 40 + i * _size + 1, _size - 1, _size - 1));
+                        g.FillRectangle(Brushes.Red, new Rectangle(40 + 10 * _size + j * _size + 1, 40 + i * _size + 1 + 30, _size - 1, _size - 1));
                     }
                     else if (mat[i, j] == 6)
                     {
-                        g.FillRectangle(Brushes.Purple, new Rectangle(40 + 10 * _size + j * _size + 1, 40 + i * _size + 1, _size - 1, _size - 1));
+                        g.FillRectangle(Brushes.Purple, new Rectangle(40 + 10 * _size + j * _size + 1, 40 + i * _size + 1 + 30, _size - 1, _size - 1));
                     }
                     else if (mat[i, j] == 7)
                     {
-                        g.FillRectangle(Brushes.Green, new Rectangle(40 + 10 * _size + j * _size + 1, 40 + i * _size + 1, _size - 1, _size - 1));
+                        g.FillRectangle(Brushes.Green, new Rectangle(40 + 10 * _size + j * _size + 1, 40 + i * _size + 1 + 30, _size - 1, _size - 1));
                     }
 
                 }
@@ -412,8 +412,8 @@ namespace tetrixd
             for (int i = 0; i <= numrow; i++)
             {
                 //левая и правая точка
-                Point pointleft = new Point(40 + 10 * _size, 40 + i * _size);
-                Point pointright = new Point(40 + 10 * _size + numcol * _size , 40 + i * _size);
+                Point pointleft = new Point(40 + 10 * _size, 40 + i * _size + 30);
+                Point pointright = new Point(40 + 10 * _size + numcol * _size , 40 + i * _size + 30);
 
                 //рисуем с помощью Graphics
                 g.DrawLine(Pens.Black, pointleft, pointright);
@@ -422,8 +422,8 @@ namespace tetrixd
             for (int i = 0; i <= numcol; i++)
             {
                 //левая и правая точка
-                Point pointleft = new Point(190 + numcol * _size + i * _size, 40);
-                Point pointright = new Point(190 + numcol * _size + i * _size, 40 + numcol * _size);
+                Point pointleft = new Point(190 + numcol * _size + i * _size, 40 + 30);
+                Point pointright = new Point(190 + numcol * _size + i * _size, 40 + numcol * _size + 30);
 
                 //рисуем с помощью Graphics
                 g.DrawLine(Pens.Black, pointleft, pointright);
@@ -443,8 +443,8 @@ namespace tetrixd
             for (int i = 0; i <= numrow; i++)
             {
                 //левая и правая точка
-                Point pointleft = new Point(10, 10 + i * _size);
-                Point pointright = new Point(10 + numcol * _size, 10 + i * _size);
+                Point pointleft = new Point(10, 10 + i * _size + 30);
+                Point pointright = new Point(10 + numcol * _size, 10 + i * _size + 30);
 
                 //рисуем с помощью Graphics
                 g.DrawLine(Pens.Black, pointleft, pointright);
@@ -453,8 +453,8 @@ namespace tetrixd
             for (int i = 0; i <= numcol; i++)
             {
                 //левая и правая точка
-                Point pointleft = new Point(10 + i * _size, 10);
-                Point pointright = new Point(10 + i * _size, 10 + numrow * _size);
+                Point pointleft = new Point(10 + i * _size, 10 + 30);
+                Point pointright = new Point(10 + i * _size, 10 + numrow * _size + 30);
 
                 //рисуем с помощью Graphics
                 g.DrawLine(Pens.Black, pointleft, pointright);

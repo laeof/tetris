@@ -54,8 +54,8 @@ namespace tetrixd
             Random rnd = new Random();
 
             //какая следующая фигура
-            //int value = rnd.Next(7);
-            int value = 0;
+            int value = rnd.Next(7);
+            //int value = 0;
             j = 0;
             this.x = x;
             this.y = y;
