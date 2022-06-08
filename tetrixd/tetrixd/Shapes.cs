@@ -49,16 +49,20 @@ namespace tetrixd
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        public Shapes(int x, int y)
+        public Shapes(int x, int y, Random rnd, int lvl)
         {
-            Random rnd = new Random();
-
             //какая следующая фигура
-            int value = rnd.Next(7);
-            //int value = 0;
+
+            int value = lvl > 3 ? rnd.Next(9) : rnd.Next(7);
+
+            //debug value
+            //int value = 8;
+
             j = 0;
+
             this.x = x;
             this.y = y;
+
             switch (value)
             {
                 case 0:
@@ -147,11 +151,35 @@ namespace tetrixd
                         { 0, 0, 0 }
                     };
                     typeshape_c = 's';
-
                     shapelength = 3;
                     shapeheight = 2;
                     break;
+                case 7:
+                    //c
+                    matrix = new int[3, 3]
+                    {
+                        { 1, 3, 0 },
+                        { 7, 0, 0 },
+                        { 6, 5, 0 }
+                    };
+                    shapelength = 2;
+                    shapeheight = 3;
+                    typeshape_c = 'c';
+                    break;
+                case 8:
+                    //H
+                    matrix = new int[3, 3]
+                    {
+                        { 1, 0, 3 },
+                        { 7, 2, 5 },
+                        { 6, 0, 4}
+                    };
+                    shapelength = 3;
+                    shapeheight = 3;
+                    typeshape_c = 'h';
+                    break;
             }
+            
             s();
         }
         /// <summary>
@@ -484,6 +512,108 @@ namespace tetrixd
                                 { 7, 0, 0},
                                 { 7, 7, 0},
                                 { 0, 7, 0}
+                            };
+                            break;
+                    }
+                    break;
+                case 'c':
+                     
+                    switch (j)
+                    {
+                        case rot.top:
+                            shapelength = 2;
+                            shapeheight = 3;
+                            matrix = new int[3, 3]
+                            {
+                                { 1, 3, 0 },
+                                { 7, 0, 0 },
+                                { 6, 5, 0 }
+                            };
+                            break;
+                        case rot.right:
+                            shapelength = 3;
+                            shapeheight = 2;
+                            if (x == 8) x--;
+                            matrix = new int[3, 3]
+                            {
+                                { 6, 7, 1 },
+                                { 5, 0, 3 },
+                                { 0, 0, 0 }
+                            };
+                            break;
+                        case rot.down:
+                            shapelength = 2;
+                            shapeheight = 3;
+                            matrix = new int[3, 3]
+                            {
+                                { 5, 6, 0},
+                                { 0, 7, 0},
+                                { 3, 1, 0}
+                            };
+                            break;
+                        case rot.left:
+                            shapelength = 3;
+                            shapeheight = 2;
+                            if (x == 8) x--;
+                            matrix = new int[3, 3]
+                            {
+                                { 1, 0, 5},
+                                { 3, 7, 6},
+                                { 0, 0, 0}
+                            };
+                            break;
+                    }
+                    break;
+                case 'h':
+                    //H
+                    /*
+                    matrix = new int[3, 3]
+                    {
+                        { 1, 0, 3 },
+                        { 7, 2, 5 },
+                        { 6, 0, 4}
+                    };
+                    break;*/
+                    switch (j)
+                    {
+                        case rot.top:
+                            shapelength = 3;
+                            shapeheight = 3;
+                            matrix = new int[3, 3]
+                            {
+                                { 1, 0, 3 },
+                                { 7, 2, 5 },
+                                { 6, 0, 4 }
+                            };
+                            break;
+                        case rot.right:
+                            shapelength = 3;
+                            shapeheight = 3;
+                            matrix = new int[3, 3]
+                            {
+                                { 6, 7, 1 },
+                                { 0, 2, 0 },
+                                { 4, 5, 3 }
+                            };
+                            break;
+                        case rot.down:
+                            shapelength = 3;
+                            shapeheight = 3;
+                            matrix = new int[3, 3]
+                            {
+                                { 4, 0, 6},
+                                { 5, 2, 7},
+                                { 3, 0, 1}
+                            };
+                            break;
+                        case rot.left:
+                            shapelength = 3;
+                            shapeheight = 3;
+                            matrix = new int[3, 3]
+                            {
+                                { 3, 5, 4},
+                                { 0, 2, 0},
+                                { 1, 7, 6}
                             };
                             break;
                     }

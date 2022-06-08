@@ -4,6 +4,7 @@ using System.Windows.Forms;
 
 namespace tetrixd
 {
+    
     public partial class Form1 : Form
     {
         //экземпляр фигуры
@@ -14,7 +15,9 @@ namespace tetrixd
         Files file;
         //коллизия
         bool col;
-
+        //экземпляр рандома
+        Random rnd = new Random();
+        public int speed = 0;
         public Form1()
         {
             Program.f = this;
@@ -38,14 +41,12 @@ namespace tetrixd
             //размер клеточки
             int size = 25;
             //экземпляр карты
-            mapp = new Map(10, 20, size);
-
-            timer1.Start();
+            mapp = new Map(10, 20, size); 
 
             //экземпляр фигуры
-            curshape = new Shapes(3, -1);
-            nextShape = new Shapes(3, -1);
-
+            curshape = new Shapes(3, -1, rnd, speed);
+            nextShape = new Shapes(3, -1, rnd, speed);
+            timer1.Start();
             //результат
             mapp._score = 0;
             label1.Text = "Score: " + mapp._score;
@@ -69,7 +70,12 @@ namespace tetrixd
             if (!col)
                 curshape.Move();
 
-            mapp.ClearOneRow();
+            if (WindowState == FormWindowState.Minimized)
+            {
+                panel5.Visible = true;
+                isesc = true;
+                timer1.Stop();
+            }
 
             try
             {
@@ -77,22 +83,21 @@ namespace tetrixd
                 mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
                 
             }
-            catch { curshape = new Shapes(3, -1); }
+            catch { mapp.EndGame(); }
 
             mapp.ScoreCalc();
 
             //коллизия
             if (col)
             {
+                mapp.ClearOneRow();
                 label1.Text = "Score: " + mapp._score;
                 curshape = nextShape;
-                nextShape = new Shapes(3, -1);
-                timer1.Interval = 500;
+                nextShape = new Shapes(3, -1, rnd, speed);
+                mapp.ChangeInterval();
             }
             //отрисовка
             Invalidate();
-            //дебаг
-            Text = Convert.ToString("x: " + curshape.x + "y: " + curshape.y);
         }
         /// <summary>
         /// рисуем все
@@ -110,15 +115,20 @@ namespace tetrixd
         //рестарт
         private void button1_Click(object sender, EventArgs e)
         {
+            speed = 0;
+            isesc = false;
+            button3.Enabled = true;
+            panel5.Visible = false;
             mapp.Restart(file, mapp._score);
             label2.Text = "1. " + file.Tier1.ToString();
             label3.Text = "2. " + file.Tier2.ToString();
             label4.Text = "3. " + file.Tier3.ToString();
             timer1.Enabled = true;
-            button1.Visible = false;
             label1.Text = "Score: " + mapp._score;
             mapp = new Map(10, 20, 25);
-            this.Focus();
+            curshape = new Shapes(3, -1, rnd, speed);
+            nextShape = new Shapes(3, -1, rnd, speed);
+            panel4.Focus();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -153,8 +163,8 @@ namespace tetrixd
         /// <summary>
         /// обработчик клавиш
         /// </summary>
-        bool isesc = false;
-        private void panel4_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        public bool isesc = false;
+        private void panel4_PreviewKeyDown(object    sender, PreviewKeyDownEventArgs e)
         {
             if (!isesc)
             {
@@ -198,6 +208,7 @@ namespace tetrixd
                     if (!isesc)
                     {
                         timer1.Stop();
+                        panel5.Visible = true;
                         isesc = true;
                     }
                     else
@@ -233,15 +244,41 @@ namespace tetrixd
                     if (!isesc)
                     {
                         timer1.Stop();
+                        panel5.Visible = true;
                         isesc = true;
                     }
                     else
                     {
                         timer1.Start();
                         isesc = false;
+                        panel5.Visible = false;
                     }
                 }
             }
         }
+        /// <summary>
+        /// вернуться к игре
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button3_Click(object sender, EventArgs e)
+        {
+            timer1.Start();
+            isesc = false;
+            panel5.Visible = false;
+            panel4.Focus();
+        }
+        /// <summary>
+        /// сворачивание
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Form1_Deactivate(object sender, EventArgs e)
+        {
+            panel5.Visible = true;
+            isesc = true;
+            timer1.Stop();
+        }
     }
 }
+

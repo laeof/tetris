@@ -29,7 +29,6 @@ namespace tetrixd
         /// экземпляр контроллера очков
         /// </summary>
         ScoreM score = new ScoreM();
-        //250 500 700 1000 1300
         /// <summary>
         /// конструктор
         /// </summary>
@@ -60,7 +59,19 @@ namespace tetrixd
                     _map[i, j] = 0;
                 }
             }
+            Program.f.speed = 0;
         }
+
+        public void EndGame()
+        {
+            Program.f.timer1.Enabled = false;
+            Program.f.isesc = true;
+            Program.f.panel5.Visible = true;
+            Program.f.button3.Enabled = false;
+        }
+        #region collisions
+
+
         /// <summary>
         /// коллизии
         /// </summary>
@@ -82,8 +93,7 @@ namespace tetrixd
                     {
                         if (y == 0)
                         {
-                            Program.f.timer1.Enabled = false;
-                            Program.f.button1.Visible = true;
+                            EndGame();
                         }
                         _score += score.Score;
                         return true;
@@ -153,6 +163,10 @@ namespace tetrixd
                 }
             return false;
         }
+        #endregion
+
+
+        #region clear row
         /// <summary>
         /// убираем заполненную линию
         /// </summary>
@@ -207,7 +221,10 @@ namespace tetrixd
                 }
             }
         }
+        #endregion
 
+
+        #region difficulty
         /// <summary>
         /// считаем очки по контроллеру очков
         /// </summary>
@@ -253,24 +270,32 @@ namespace tetrixd
             switch (score.Speed)
             {
                 case 1:
-
+                    Program.f.timer1.Interval = 1200;
+                    Program.f.speed++;
                     break;
                 case 2:
-
+                    Program.f.timer1.Interval = 1000;
+                    Program.f.speed++;
                     break;
                 case 3:
-
+                    Program.f.timer1.Interval = 800;
+                    Program.f.speed++;
                     break;
                 case 4:
-
+                    Program.f.timer1.Interval = 600;
+                    Program.f.speed++;
                     break;
                 case 5:
-
+                    Program.f.timer1.Interval = 400;
+                    Program.f.speed++;
                     break;
                 default:
                     break;
             }
         }
+        #endregion
+
+
         /// <summary>
         /// инициализируем матрицу
         /// </summary>
