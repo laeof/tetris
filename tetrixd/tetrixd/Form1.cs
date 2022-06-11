@@ -12,6 +12,7 @@ namespace tetrixd
         Shapes nextShape;
         //экземпляр карты
         Map mapp;
+        //экземпляр сохранения
         Files file;
         //коллизия
         bool col;
@@ -61,7 +62,7 @@ namespace tetrixd
         /// <param name="e"></param>
         public void update(object Sender, EventArgs e)
         {
-            mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+            mapp.Clear(curshape);
 
             col = mapp.Collisions(curshape.x, curshape.y, curshape.shapelength,
                 curshape.shapeheight, curshape.typeshape_x, curshape.typeshape_y, curshape);
@@ -80,12 +81,10 @@ namespace tetrixd
             try
             {
                 //инициализация
-                mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                mapp.Merge(curshape);
                 
             }
             catch { mapp.EndGame(); }
-
-            mapp.ScoreCalc();
 
             //коллизия
             if (col)
@@ -164,38 +163,38 @@ namespace tetrixd
         /// обработчик клавиш
         /// </summary>
         public bool isesc = false;
-        private void panel4_PreviewKeyDown(object    sender, PreviewKeyDownEventArgs e)
+        private void panel4_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (!isesc)
             {
                 //два первых условия добавить условие справа или слева находится фигура то-есть 1
                 if (e.KeyCode == Keys.A && curshape.x > 0 && curshape.y >= 0 && !mapp.Collisions_Left(curshape))
                 {
-                    mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                    mapp.Clear(curshape);
                     curshape.MoveLeft();
-                    mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                    mapp.Merge(curshape);
                     Invalidate();
                 }
                 //pressed d && x < limit_x && (y >= 0 cause error happens)
                 else if (e.KeyCode == Keys.D && curshape.x < curshape.typeshape_x && curshape.y >= 0 && !mapp.Collisions_Right(curshape))
                 {
-                    mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                    mapp.Clear(curshape);
                     curshape.MoveRight();
-                    mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                    mapp.Merge(curshape);
                     Invalidate();
                 }
                 else if (e.KeyCode == Keys.R && !col)
                 {
-                    mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                    mapp.Clear(curshape);
                     curshape.Rotate();
-                    mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                    mapp.Merge(curshape);
                     Invalidate();
                 }
                 else if (e.KeyCode == Keys.Up && !col)
                 {
-                    mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                    mapp.Clear(curshape);
                     curshape.Rotate();
-                    mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                    mapp.Merge(curshape);
                     Invalidate();
                 }
                 else if (e.KeyCode == Keys.S)
@@ -224,16 +223,16 @@ namespace tetrixd
                 }
                 else if (e.KeyCode == Keys.Left && curshape.x > 0 && curshape.y >= 0 && !mapp.Collisions_Left(curshape))
                 {
-                    mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                    mapp.Clear(curshape);
                     curshape.MoveLeft();
-                    mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                    mapp.Merge(curshape);
                     Invalidate();
                 }
                 else if (e.KeyCode == Keys.Right && curshape.x < curshape.typeshape_x && curshape.y >= 0 && !mapp.Collisions_Right(curshape))
                 {
-                    mapp.Clear(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                    mapp.Clear(curshape);
                     curshape.MoveRight();
-                    mapp.Merge(curshape.x, curshape.y, curshape.shapelength, curshape.shapeheight, curshape);
+                    mapp.Merge(curshape);
                     Invalidate();
                 }
             }
@@ -256,6 +255,7 @@ namespace tetrixd
                 }
             }
         }
+
         /// <summary>
         /// вернуться к игре
         /// </summary>
@@ -281,4 +281,3 @@ namespace tetrixd
         }
     }
 }
-

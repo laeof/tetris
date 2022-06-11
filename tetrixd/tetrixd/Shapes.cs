@@ -52,7 +52,6 @@ namespace tetrixd
         public Shapes(int x, int y, Random rnd, int lvl)
         {
             //какая следующая фигура
-
             int value = lvl > 3 ? rnd.Next(9) : rnd.Next(7);
 
             //debug value

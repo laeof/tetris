@@ -1,8 +1,8 @@
-﻿using System;
-using System.Drawing;
-
-namespace tetrixd
+﻿namespace tetrixd
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
     public class Map
     {
         /// <summary>
@@ -59,7 +59,8 @@ namespace tetrixd
                     _map[i, j] = 0;
                 }
             }
-            Program.f.speed = 0;
+            Program.f.speed = 1;
+            score.Speed = 1;
         }
 
         public void EndGame()
@@ -68,7 +69,10 @@ namespace tetrixd
             Program.f.isesc = true;
             Program.f.panel5.Visible = true;
             Program.f.button3.Enabled = false;
+            Program.f.timer1.Interval = 1200;
         }
+
+
         #region collisions
 
 
@@ -95,6 +99,7 @@ namespace tetrixd
                         {
                             EndGame();
                         }
+                        ScoreCalc();
                         _score += score.Score;
                         return true;
                     }
@@ -102,31 +107,11 @@ namespace tetrixd
 
             if (y == type_y)
             {
+                ScoreCalc();
                 _score += score.Score;
                 return true;
             }
 
-            return false;
-        }
-        /// <summary>
-        /// коллизии
-        /// </summary>
-        /// <param name="shape"></param>
-        /// <returns></returns>
-        public bool Collisions_Right_Left(Shapes shape)
-        {
-            if (shape.x > 0 && shape.y <= shape.typeshape_y && shape.x < shape.typeshape_x)
-                for (int i = 0; i < 3; i++)
-                {
-                    if (_map[shape.y + i, shape.x - 1] != 0 && _map[shape.y + i, shape.x] != 0)
-                    {
-                        return true;
-                    }
-                    if (_map[shape.y + i, shape.x + shape.shapelength] != 0 && _map[shape.y + i, shape.x + shape.shapelength - 1] != 0)
-                    {
-                        return true;
-                    }
-                }
             return false;
         }
         /// <summary>
@@ -216,6 +201,7 @@ namespace tetrixd
                     {
                         _map[i, j] = 0;
                     }
+                    ScoreCalc();
                     _score += score.Score_Row;
                     DownRows(i);
                 }
@@ -226,75 +212,56 @@ namespace tetrixd
 
         #region difficulty
         /// <summary>
-        /// считаем очки по контроллеру очков
+        /// считаем очки по контроллеру очков (скорость по баллам)
         /// </summary>
-        bool i1 = true, i2 = true, i3 = true, i4 = true;
+        Dictionary<int, int> scorelvl = new Dictionary<int, int>()
+        {
+            { 100, 1},
+            { 200, 2},
+            { 400, 3},
+            { 600, 4},
+            { 1200, 5}
+        };
         public void ScoreCalc()
         {
-            if (i1 && _score >= 300)
+            foreach (var scorel in scorelvl)
             {
-                i1 = false;
-                score.Score_Calc();
-            }
-            else if(_score > 600)
-            {
-                if (i2)
+                if (_score >= scorel.Key && scorel.Value == score.Speed && score.Speed!=5)
                 {
-                    i2 = false;
                     score.Score_Calc();
                 }
-                else if(_score > 900)
-                {
-                    if (i3)
-                    {
-                        i3 = false;
-                        score.Score_Calc();
-                    }
-                    else if(_score > 1200)
-                    {
-                        if (i4)
-                        {
-                            i4 = false;
-                            score.Score_Calc();
-                        }
-                    }
-                }
             }
-
         }
         /// <summary>
         /// изменяем скорость в соответствии со сложностью
         /// </summary>
+        Dictionary<int, int> speedlvl = new Dictionary<int, int>()
+        {
+            { 1200, 1},
+            { 1000, 2},
+            { 800, 3},
+            { 600, 4},
+            { 400, 5}
+        };
         public void ChangeInterval()
         {
-            switch (score.Speed)
+            //score.Speed - текущая скорость
+            //if score.Speed == 1 Program.f.speed = 1 timer1.interval = 1200
+
+            foreach (var speedl in speedlvl)
             {
-                case 1:
-                    Program.f.timer1.Interval = 1200;
-                    Program.f.speed++;
-                    break;
-                case 2:
-                    Program.f.timer1.Interval = 1000;
-                    Program.f.speed++;
-                    break;
-                case 3:
-                    Program.f.timer1.Interval = 800;
-                    Program.f.speed++;
-                    break;
-                case 4:
-                    Program.f.timer1.Interval = 600;
-                    Program.f.speed++;
-                    break;
-                case 5:
-                    Program.f.timer1.Interval = 400;
-                    Program.f.speed++;
-                    break;
-                default:
-                    break;
+                if (score.Speed == speedl.Value)
+                {
+                    Program.f.speed = score.Speed;
+                    Program.f.timer1.Interval = speedl.Key;
+                }
             }
         }
+
         #endregion
 
+
+        #region init&draw
 
         /// <summary>
         /// инициализируем матрицу
@@ -304,7 +271,7 @@ namespace tetrixd
         /// <param name="shapelenght"></param>
         /// <param name="shapeheight"></param>
         /// <param name="shape"></param>
-        public void Merge(int x, int y, int shapelenght, int shapeheight, Shapes shape)
+        public void Merge(Shapes shape)
         {
             for (int i = shape.y; i < shape.y + Math.Sqrt(shape.matlen); i++)
             {
@@ -323,20 +290,20 @@ namespace tetrixd
         /// <param name="shapelenght"></param>
         /// <param name="shapeheight"></param>
         /// <param name="shape"></param>
-        public void Clear(int x, int y, int shapelenght, int shapeheight, Shapes shape)
-        {
-            for (int i = y; i < y + shapeheight; i++)
+            public void Clear(Shapes shape)
             {
-                for (int j = x; j < x + shapelenght; j++)
+                for (int i = shape.y; i < shape.y + shape.shapeheight; i++)
                 {
-                    if (i >= 0 && j >= 0 && i < 20 && j < 10)
+                    for (int j = shape.x; j < shape.x + shape.shapelength; j++)
                     {
-                        if (shape.matrix[i - shape.y, j - shape.x] != 0)
-                            _map[i, j] = 0;
+                        if (i >= 0 && j >= 0 && i < 20 && j < 10)
+                        {
+                            if (shape.matrix[i - shape.y, j - shape.x] != 0)
+                                _map[i, j] = 0;
+                        }
                     }
                 }
             }
-        }
         /// <summary>
         /// рисуем игру
         /// </summary>
@@ -485,5 +452,7 @@ namespace tetrixd
                 g.DrawLine(Pens.Black, pointleft, pointright);
             }
         }
+        #endregion
+
     }
 }

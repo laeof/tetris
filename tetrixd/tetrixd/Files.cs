@@ -12,10 +12,6 @@ namespace tetrixd
         /// </summary>
         private string _filepath;
         /// <summary>
-        /// очки
-        /// </summary>
-        private int _score = 0;
-        /// <summary>
         /// таблица лидеров(при желании расширить)
         /// </summary>
         public int Tier1, Tier2, Tier3;

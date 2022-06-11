@@ -17,7 +17,11 @@
         //readonly
         //свойства
         public int Score_Row => _score_row;
-        public int Speed => _speed;
+        public int Speed
+        {
+            get { return _speed; }
+            set { _speed = value; }
+        }
         public int Score => _score;
         /// <summary>
         /// конструктор
